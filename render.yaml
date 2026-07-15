@@ -20,4 +20,4 @@ services:
       - key: OCM_API_KEY
         sync: false
       - key: ALLOWED_ORIGINS
-        value: "*"             # tighten to https://<app>.onrender.com after first deploy
+        value: "https://buzzinga.onrender.com"
