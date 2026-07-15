@@ -14,7 +14,9 @@ services:
       - key: DATABASE_URL
         sync: false            # paste the Neon connection string in the dashboard
       - key: GOOGLE_MAPS_API_KEY
-        sync: false
+        sync: false            # server-side: Geocoding/Places/Elevation — NO referrer restriction
+      - key: GOOGLE_BROWSER_KEY
+        sync: false            # browser: Maps JS only, referrer-locked to this app
       - key: GOOGLE_ROUTES_API_KEY
         sync: false
       - key: OCM_API_KEY

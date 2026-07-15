@@ -41,12 +41,14 @@ def vehicles():
 
 @app.get("/config")
 def config():
-    """Browser config. The Maps JS key is meant to be public — restrict it by
-    HTTP referrer in Google Cloud console before the pilot."""
-    import os
+    """Browser config. GOOGLE_BROWSER_KEY is the public one (referrer-locked,
+    Maps JS only). Referrer-restricted keys are REJECTED by server-side Google
+    APIs, so it must be a separate key from GOOGLE_MAPS_API_KEY (server-side:
+    Geocoding/Places/Elevation, no referrer restriction)."""
     from db import load_env
     load_env()
-    return {"maps_js_key": os.environ.get("GOOGLE_MAPS_API_KEY", "")}
+    return {"maps_js_key": os.environ.get("GOOGLE_BROWSER_KEY")
+            or os.environ.get("GOOGLE_MAPS_API_KEY", "")}
 
 
 @app.get("/geo/autocomplete")
