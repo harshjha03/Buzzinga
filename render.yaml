@@ -1,0 +1,45 @@
+# Render blueprint: web (API + PWA) + Postgres + 6-hourly OCM sync.
+# Deploy: Render dashboard -> New -> Blueprint -> pick this repo.
+databases:
+  - name: buzzinga-db
+    plan: basic-256mb          # smallest paid tier; PostGIS available
+    postgresMajorVersion: "16"
+
+services:
+  - type: web
+    name: buzzinga
+    runtime: python
+    plan: starter              # stays warm (free tier cold-starts ~50s)
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: buzzinga-db
+          property: connectionString
+      - key: GOOGLE_MAPS_API_KEY
+        sync: false            # set in dashboard, never in git
+      - key: GOOGLE_ROUTES_API_KEY
+        sync: false
+      - key: OCM_API_KEY
+        sync: false
+      - key: ALLOWED_ORIGINS
+        value: "*"             # tighten to https://<app>.onrender.com after first deploy
+
+  - type: cron
+    name: buzzinga-ocm-sync
+    runtime: python
+    schedule: "0 */6 * * *"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m ingest.ocm_sync
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: buzzinga-db
+          property: connectionString
+      - key: OCM_API_KEY
+        sync: false

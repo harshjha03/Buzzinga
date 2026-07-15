@@ -18,8 +18,12 @@ from planner.trust import charger_trust
 from routing.google_maps import autocomplete, reverse_geocode
 
 app = FastAPI(title="Buzzinga API")
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"],
-                   allow_headers=["*"])  # ponytail: open CORS; pin origins at deploy
+# PWA is served same-origin; CORS only matters for third-party callers.
+# Set ALLOWED_ORIGINS=https://<app>.onrender.com in prod to shut them out.
+import os
+app.add_middleware(CORSMiddleware,
+                   allow_origins=os.environ.get("ALLOWED_ORIGINS", "*").split(","),
+                   allow_methods=["*"], allow_headers=["*"])
 
 
 @app.get("/vehicles")
