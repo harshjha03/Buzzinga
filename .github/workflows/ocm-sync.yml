@@ -1,0 +1,22 @@
+# 6-hourly OCM -> Neon sync (replaces a paid host cron on the free stack).
+# Needs repo secrets: DATABASE_URL (Neon), OCM_API_KEY.
+name: ocm-sync
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch: {}   # manual run button in the Actions tab
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install "psycopg[binary]"
+      - run: python -m ingest.ocm_sync
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          OCM_API_KEY: ${{ secrets.OCM_API_KEY }}
