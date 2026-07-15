@@ -1,0 +1,123 @@
+{
+  "generated": "2026-07-11",
+  "comment": "Hand-curated prototype vehicle catalog. dc_curve = car's DC charge acceptance (SoC% -> kW), uncapped by charger; planner uses min(curve, charger_kw). curve_source: 'measured' = from a logged real session, 'fitted' = generic taper scaled to verified anchors. Fields flagged *_is_estimated were derived, not published.",
+  "vehicles": [
+    {
+      "id": "tata-nexon-ev-lr-45",
+      "make": "Tata",
+      "model": "Nexon EV",
+      "variant": "Long Range 45 (2023 facelift)",
+      "battery": { "gross_kwh": 46.1, "usable_kwh": 45.0, "usable_is_estimated": true, "chemistry": "LFP" },
+      "connectors": { "dc": "CCS2", "ac": "Type2" },
+      "charging": {
+        "max_dc_kw": 60,
+        "max_ac_kw": 7.2,
+        "dc_curve": [[0, 55], [10, 60], [23, 60], [37, 56], [61, 51], [80, 45], [86, 21], [90, 15], [95, 8], [100, 3]],
+        "curve_source": "measured",
+        "published_benchmark": { "from_pct": 10, "to_pct": 80, "minutes": 40, "charger_kw": 60 }
+      },
+      "consumption": { "highway_wh_per_km": 135, "source": "Team-BHP owner reports, 80-100 km/h cluster 127-140" },
+      "kerb_weight_kg": 1400,
+      "notes": "Curve from Tesla Club India logged session (Zeon 60 kW: 23-80% in 29 min). Usable 45 of 46.08 gross per that session; Tata markets 45.",
+      "sources": [
+        "https://ev.tatamotors.com/nexon/ev/specifications.html",
+        "https://x.com/TeslaClubIN/status/1870760154683384266",
+        "https://www.team-bhp.com/news/testing-my-tata-nexon-ev-45s-real-world-range-mangalore-goa-trip"
+      ]
+    },
+    {
+      "id": "tata-tiago-ev-lr-24",
+      "make": "Tata",
+      "model": "Tiago EV",
+      "variant": "Long Range 24 (pre-2026 refresh)",
+      "battery": { "gross_kwh": 24.0, "usable_kwh": 23.0, "usable_is_estimated": true, "chemistry": "LFP" },
+      "connectors": { "dc": "CCS2", "ac": "Type2" },
+      "charging": {
+        "max_dc_kw": 18,
+        "max_ac_kw": 7.2,
+        "dc_curve": [[0, 17], [10, 18], [50, 18], [85, 17], [88, 13], [92, 7], [97, 2], [100, 1.5]],
+        "curve_source": "measured",
+        "published_benchmark": { "from_pct": 10, "to_pct": 80, "minutes": 58, "charger_kw": 25 }
+      },
+      "consumption": { "highway_wh_per_km": 110, "source": "Team-BHP owner reports ~95-100 km/h" },
+      "kerb_weight_kg": 1200,
+      "kerb_weight_is_estimated": true,
+      "notes": "Spec sheet claims 25 kW DC but CarDekho instrumented test on a 120 kW charger measured only ~18 kW acceptance, flat to ~85% — max_dc_kw uses the measured value (honest charge times beat brochure ones). 2026 refresh reportedly raises this to ~30 kW; re-verify when adding that variant. Usable kWh unpublished; 23.0 assumes Tata's marketed figure is near-usable minus small buffer. Kerb weight sources conflict (1150-1255); midpoint used.",
+      "sources": [
+        "https://en.wikipedia.org/wiki/Tata_Tiago_EV",
+        "https://www.cardekho.com/india-car-news/this-is-how-long-it-takes-to-fully-charge-up-the-tata-tiago-ev-31008.htm",
+        "https://www.team-bhp.com/news/15000-km-tiago-ev-overall-observations-city-highway-range"
+      ]
+    },
+    {
+      "id": "mg-zs-ev-50",
+      "make": "MG",
+      "model": "ZS EV",
+      "variant": "India facelift 50.3 kWh",
+      "battery": { "gross_kwh": 50.3, "usable_kwh": 48.2, "usable_is_estimated": true, "chemistry": "NMC" },
+      "connectors": { "dc": "CCS2", "ac": "Type2" },
+      "charging": {
+        "max_dc_kw": 76,
+        "max_ac_kw": 7.4,
+        "dc_curve": [[0, 70], [10, 76], [20, 73], [40, 66], [60, 56], [80, 40], [90, 25], [95, 12], [100, 3]],
+        "curve_source": "fitted",
+        "published_benchmark": { "from_pct": 0, "to_pct": 80, "minutes": 60, "charger_kw": 50 }
+      },
+      "consumption": { "highway_wh_per_km": 140, "highway_wh_per_km_is_estimated": true, "source": "derived from Team-BHP owner range reports (350-400 km at 80-100 km/h)" },
+      "kerb_weight_kg": 1580,
+      "kerb_weight_is_estimated": true,
+      "notes": "Curve fitted from EU sibling (ev-database MG ZS EV Standard Range: 76 kW peak, 50 kW avg 10-80). Usable scaled by EU gross/usable ratio (49.0/51.1) applied to India's 50.3. MG India's 60-min 0-80 brochure figure is more conservative than EU measurements; validator flags the gap. Kerb weight sources conflict (1518-1641); midpoint used.",
+      "sources": [
+        "https://www.mgmotor.co.in/vehicles/mgzsev-electric-car-in-india",
+        "https://ev-database.org/car/1540/MG-ZS-EV-Standard-Range",
+        "https://www.zigwheels.com/mg-motor-cars/zs-ev/specifications"
+      ]
+    },
+    {
+      "id": "mahindra-xuv400-39",
+      "make": "Mahindra",
+      "model": "XUV400 EV",
+      "variant": "EL / EL Pro 39.4 kWh",
+      "battery": { "gross_kwh": 39.4, "usable_kwh": 37.5, "usable_is_estimated": true, "chemistry": "NMC" },
+      "connectors": { "dc": "CCS2", "ac": "Type2" },
+      "charging": {
+        "max_dc_kw": 50,
+        "max_ac_kw": 7.2,
+        "dc_curve": [[0, 45], [10, 48], [30, 45], [50, 40], [65, 33], [80, 24], [90, 15], [95, 8], [100, 2]],
+        "curve_source": "fitted",
+        "published_benchmark": { "from_pct": 0, "to_pct": 80, "minutes": 50, "charger_kw": 50 }
+      },
+      "consumption": { "highway_wh_per_km": 170, "source": "Autocar India instrumented highway test (5.89 km/kWh)" },
+      "kerb_weight_kg": 1578,
+      "notes": "No published curve; fitted to anchors: 50 kW peak (owner log confirmed ~50 kW max at a 60 kW station), ~33 kW average observed mid-session, Mahindra's 0-80 in 50 min. Usable kWh unpublished; 95% of gross assumed.",
+      "sources": [
+        "https://www.mahindra.com/news-room/press-release/en/mahindra-unveils-its-first-electric-suv-on-world-ev-day-the-fun-and-fast-xuv400",
+        "https://www.autocarindia.com/advice/mahindra-xuv400-real-world-range-tested-explained-427598",
+        "https://medium.com/@sushilr25/electric-car-journey-highlights-cb8a21d6b749"
+      ]
+    },
+    {
+      "id": "byd-atto3-60",
+      "make": "BYD",
+      "model": "Atto 3",
+      "variant": "Extended Range 60.48 kWh (India)",
+      "battery": { "gross_kwh": 62.0, "usable_kwh": 60.5, "usable_is_estimated": false, "chemistry": "LFP" },
+      "connectors": { "dc": "CCS2", "ac": "Type2" },
+      "charging": {
+        "max_dc_kw": 88,
+        "max_ac_kw": 7.0,
+        "dc_curve": [[0, 75], [10, 88], [20, 85], [30, 80], [40, 72], [50, 65], [60, 58], [70, 50], [80, 43], [90, 30], [95, 15], [100, 5]],
+        "curve_source": "fitted",
+        "published_benchmark": { "from_pct": 10, "to_pct": 80, "minutes": 38, "charger_kw": 150 }
+      },
+      "consumption": { "highway_wh_per_km": 202, "source": "ev-database highway mild-weather figure; single source" },
+      "kerb_weight_kg": 1750,
+      "notes": "Curve fitted to ev-database/Fastned shape (88-89 kW measured peak, 10-80 in 38 min avg ~71 kW). India brochure quotes 0-80 in 50 min at an 80 kW charger — consistent with this curve capped at 80 kW. AC is 7 kW on India cars (11 kW EU), single-source.",
+      "sources": [
+        "https://ev-database.org/car/1782/BYD-ATTO-3",
+        "https://en.wikipedia.org/wiki/BYD_Atto_3",
+        "https://zecar.com/resources/byd-atto-3-charging-guide"
+      ]
+    }
+  ]
+}
